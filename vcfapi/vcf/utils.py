@@ -16,7 +16,7 @@ def get_bucket_url(vcf_file):
 
     # Generate a presigned URL for the object in the bucket
     object_key = vcf_file
-    expiration_time = 3600  # URL expiration time in seconds
+    expiration_time = 2629744  # URL expiration time in seconds
     presigned_url = s3_client.generate_presigned_url('get_object',
                                                     Params={'Bucket': bucket_name, 'Key': object_key},
                                                     ExpiresIn=expiration_time)
