@@ -35,17 +35,20 @@ class UserInformation(models.Model):
 
         # fill the vcard information data
         vcard = vobject.vCard()
-        vcard.add('fn').value = self.get_full_name()
+        vcard.add('fn').value = f"{self.first_name} {self.last_name}"
+        vcard.add('n')
+        vcard.n.value = vobject.vcard.Name( family={self.last_name}, given={self.first_name} )
         vcard.add('email').value = self.email
         vcard.add('tel').value = self.phone
-        vcard.add('org').value = self.organisation
+        org = vcard.add('org')
+        vcard.add('org').value = [self.organisation]
         vcard.add('title').value = self.position
 
-        print(settings.BASE_DIR)
+        vcard_data = vcard.serialize()
 
         # Save the vCard to a file
         with open(f"./userInfo/{self.email}.vcf", 'w') as file:
-            file.write(vcard.serialize())
+            file.write(vcard_data)
         
         self.vcarf_file_path = f"{self.email}.vcf"
         self.save()
