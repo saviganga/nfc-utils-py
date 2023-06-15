@@ -14,12 +14,13 @@ VCF_FILE_PATH = "/Users/saviganga/Documents/working-boy/nfc/django/vcf/userInfo"
 class UserInformation(models.Model):
 
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    first_name = models.CharField(max_length=20, null=True, blank=True)
-    last_name = models.CharField(max_length=20, null=True, blank=True)
+    first_name = models.CharField(max_length=20, null=False, blank=False, default='user')
+    last_name = models.CharField(max_length=20, null=False, blank=False, default='user')
     phone = models.CharField(_("phone number"), unique=True, max_length=15)
     email = models.EmailField(_("email address"), max_length=254, unique=True, null=True, blank=True)
     organisation = models.CharField(max_length=50, null=True, blank=True)
     position = models.CharField(max_length=50, null=True, blank=True)
+    links = models.JSONField(default=list)
     vcarf_file_path = models.CharField(max_length=100, null=True, blank=True)
     added_on = models.DateTimeField(auto_now_add=True)
     updated_on = models.DateTimeField(auto_now=True)
@@ -40,9 +41,23 @@ class UserInformation(models.Model):
         vcard.n.value = vobject.vcard.Name( family={self.last_name}, given={self.first_name} )
         vcard.add('email').value = self.email
         vcard.add('tel').value = self.phone
-        org = vcard.add('org')
-        vcard.add('org').value = [self.organisation]
-        vcard.add('title').value = self.position
+        if self.organisation:
+            org = vcard.add('org')
+            vcard.add('org').value = [self.organisation]
+        else:
+            pass
+        if self.position:
+            vcard.add('title').value = self.position
+        else:
+            pass
+        if self.links:
+            for link in self.links:
+                user_link = vcard.add('url')
+                user_link.value = link.get('link')
+                user_link.type_param = link.get('label')
+                vcard.add(user_link)
+        else:
+            pass
 
         vcard_data = vcard.serialize()
 
