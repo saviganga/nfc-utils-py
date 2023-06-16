@@ -9,17 +9,21 @@ from vcf import models as vcf_models
 from vcf import serializers as vcf_serializers
 from vcf import responses as vcf_responses
 from vcf import utils as vcf_utils
-
+from vcf import permissions as vcf_permission
 
 class VCFUserInformationViewSet(ModelViewSet):
 
     queryset = vcf_models.UserInformation.objects.all()
     serializer_class = vcf_serializers.UserInformationSerializer
+    permission_classes = [vcf_permission.UserPermissions | vcf_permission.UserPermissions]
 
     def get_queryset(self):
         if getattr(self, 'swagger_fake_view', False):
             return self.queryset.none()  
-        return self.queryset.all()
+        elif self.request.user.is_authenticated and self.request.user.is_staff:
+            return self.queryset.all()
+        return self.queryset.filter(user=self.request.user)
+        
 
     def list(self, request, *args, **kwargs):
 
@@ -39,8 +43,16 @@ class VCFUserInformationViewSet(ModelViewSet):
             )
 
     def create(self, request, *args, **kwargs):
+
+        mutable_query_dict = request.data.copy()
+
+        # Modify the mutable copy
+        mutable_query_dict['key'] = 'value'
+
+        if not mutable_query_dict.get('user'):
+            mutable_query_dict['user'] = request.user.id
         
-        serializer = self.get_serializer(data=request.data)
+        serializer = self.get_serializer(data=mutable_query_dict)
 
         try:
             serializer.is_valid(raise_exception=True)

@@ -38,7 +38,11 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
-    'vcf'
+    'corsheaders',
+
+    'vcf',
+    'xauth',
+    "userapp"
 ]
 
 MIDDLEWARE = [
@@ -125,3 +129,29 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # VCF_FILE_PATH = "/Users/saviganga/Documents/working-boy/nfc/django/vcf/userInfo"
+
+
+REST_FRAMEWORK = {
+    "DEFAULT_AUTHENTICATION_CLASSES": (
+        "xauth.authentication_backend.JWTAuthentication",
+        "rest_framework.authentication.SessionAuthentication",
+    ),
+}
+
+AUTH_USER_MODEL = "userapp.CustomUser"
+
+CORS_ORIGIN_ALLOW_ALL = True
+CORS_ALLOW_HEADERS = [
+    "accept",
+    "accept-encoding",
+    "authorization",
+    "content-type",
+    "dnt",
+    "origin",
+    "user-agent",
+    "x-csrftoken",
+    "x-requested-with",
+    "admin",
+    "platform"
+
+]
