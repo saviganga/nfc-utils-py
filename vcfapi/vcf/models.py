@@ -5,6 +5,8 @@ from django.conf import settings
 
 from vcf import utils as vcf_utils
 
+from userapp import models as user_models
+
 import vobject
 
 VCF_FILE_PATH = "/Users/saviganga/Documents/working-boy/nfc/django/vcf/userInfo"
@@ -14,6 +16,7 @@ VCF_FILE_PATH = "/Users/saviganga/Documents/working-boy/nfc/django/vcf/userInfo"
 class UserInformation(models.Model):
 
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    user = models.ForeignKey(user_models.CustomUser, related_name='vcf_cards', on_delete=models.CASCADE)
     first_name = models.CharField(max_length=20, null=False, blank=False, default='user')
     last_name = models.CharField(max_length=20, null=False, blank=False, default='user')
     phone = models.CharField(_("phone number"), unique=True, max_length=15)
