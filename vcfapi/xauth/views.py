@@ -29,7 +29,7 @@ class JWTAuth(APIView):
     @permission_classes((AllowAny,))
     def post(self, request, *args, **kwargs):
 
-        platform = request.headers.get('platform')
+        platform =  'IOS'#request.headers.get('platform')
         if platform not in ['IOS', 'ANDROID']:
             print('login platform error')
             return Response(data={"status": "FAILED", "message": "Please pass the platform in your header"}, status=status.HTTP_400_BAD_REQUEST)

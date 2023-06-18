@@ -5,7 +5,7 @@ class JWTResponses:
         return {
             "status": "SUCCESS",
             "message": "Login successful",
-            "access": data,
+            "data": data,
         }
 
     def jwtautherror(self):
