@@ -15,9 +15,7 @@ class UserResponses:
 
     def create_user_error(self, data: dict):
         d = data.keys()
-        print(data.keys())
         s = [a for a in data.keys()]
-        print(s)
         # d.append(data)
         return {
             "status": "FAILED",
@@ -64,9 +62,7 @@ class UserResponses:
     def social_signup_error(self, data):
 
         d = data.keys()
-        print(data.keys())
         s = [a for a in data.keys()]
-        print(s)
         # d.append(data)
         return {
             "status": "FAILED",
@@ -111,9 +107,7 @@ class UserResponses:
 
     def change_password_error(self, data):
         d = data.keys()
-        print(data.keys())
         s = [a for a in data.keys()]
-        print(s)
         return {
             "status": "FAILED",
             "message": data[s[0]][0],

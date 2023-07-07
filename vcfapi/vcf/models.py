@@ -82,7 +82,6 @@ class UserInformation(models.Model):
         is_uploaded = vcf_utils.upload_vcf_to_bucket(vcf_file=f"./userInfo/{self.email}.vcf", user=self)
         if not is_uploaded:
             return False
-        print('uploaded')
         return True
 
 

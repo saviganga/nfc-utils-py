@@ -6,7 +6,6 @@ def upload_vcf_to_bucket(vcf_file, user):
 
     s3_client = boto3.client('s3', aws_access_key_id='AKIASBMOA6HRYNLZF4FR', aws_secret_access_key='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')
     s3_client.upload_file(vcf_file, bucket_name, user.vcarf_file_path)
-    print('done')
     return True
 
 def get_bucket_url(vcf_file):

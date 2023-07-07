@@ -11,4 +11,3 @@ def create_vcard_file(sender, instance, created, **kwargs):
 
     if created:
         instance.create_vcard_instance()
-        print('created')
