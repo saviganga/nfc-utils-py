@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-5=0+nlv9wp^n#f7vr3&x)v@kn9j%xqxqqzv1-h2s6f8kljs5!p
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['5b1f-102-216-201-33.ngrok-free.app', 'b45c-102-216-201-45.ngrok-free.app']
+ALLOWED_HOSTS = ['*', 'd28f-102-216-201-52.ngrok-free.app', 'b45c-102-216-201-45.ngrok-free.app', '120f-102-216-201-30.ngrok-free.app', 'b9f3-102-88-63-216.ngrok-free.app']
 
 
 # Application definition
@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'xauth',
     "userapp",
     "spotify",
+    "webhook",
 ]
 
 MIDDLEWARE = [
@@ -156,3 +157,6 @@ CORS_ALLOW_HEADERS = [
     "platform"
 
 ]
+
+FE_REDIRECT_URL = 'http://192.168.0.198:3000'#'http://192.168.100.7:3000'
+SPOTIFY_REDIRECT_URI = 'https://b9f3-102-88-63-216.ngrok-free.app/webhook/spotify_callback'

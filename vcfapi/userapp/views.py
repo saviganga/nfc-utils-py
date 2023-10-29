@@ -41,6 +41,10 @@ import json
 from   datetime import  datetime as dt, date
 import pytz
 
+from opentelemetry import trace
+
+# tracer = trace.get_tracer(__name__)
+
 
 
 
@@ -49,6 +53,7 @@ class UserViewSet(ModelViewSet):
     queryset = user_models.CustomUser.objects.all()
     read_serializer_class = user_serializers.ReadCustomUserSerializer
     write_serializer_class = user_serializers.RegisterCustomUserSerializer
+    serializer_class = user_serializers.RegisterCustomUserSerializer
 
     def get_queryset(self):
         if getattr(self, 'swagger_fake_view', False):
@@ -62,31 +67,35 @@ class UserViewSet(ModelViewSet):
         # return self.queryset.all()
 
     def list(self, request, *args, **kwargs):
-        try:
-            queryset = self.filter_queryset(self.get_queryset())
+        # with tracer.start_as_current_span("get-user-list"):
+            # oga.set_attribute("http.status_code", 200)
+            try:
 
-            serializer = self.read_serializer_class(queryset, many=True)
+                queryset = self.filter_queryset(self.get_queryset())
 
-            data = {
-                "message": "Successfully fetched users",
-                "status": "SUCCESS",
-                "data": serializer.data,
-            }
-            return Response(data)
-        except Exception as e:
-            print(e)
-            return Response(
-                data={
-                    "status": "FAILED",
-                    "message": "Unauthenticated User"
-                },
-                status=status.HTTP_401_UNAUTHORIZED
-            )
+                serializer = self.read_serializer_class(queryset, many=True)
+
+                data = {
+                    "message": "Successfully fetched users",
+                    "status": "SUCCESS",
+                    "data": serializer.data,
+                }
+                return Response(data)
+            except Exception as e:
+                print(e)
+                return Response(
+                    data={
+                        "status": "FAILED",
+                        "message": "Unauthenticated User"
+                    },
+                    status=status.HTTP_401_UNAUTHORIZEDs
+                )
 
     def retrieve(self, request, *args, **kwargs):
         print(f"user jwt:\n {request.user}: {request.headers.get('authorization')}")
         inst = self.get_object()
         print(f"\ninst: {inst}\n")
+
         try:
             instance = self.get_object()
             serializer = self.read_serializer_class(instance)
@@ -118,8 +127,10 @@ class UserViewSet(ModelViewSet):
             201: user_serializers.RegisterUserResponseSerializer(many=False)},
     )
     def signup(self, request, *args, **kwargs):
-        req = self.write_serializer_class(data=request.data)
+        # req = self.write_serializer_class(data=request.data)
+        # with tracer.start_as_current_span("signup-user"):
         try:
+            req = user_serializers.RegisterCustomUserSerializer(data=request.data)
             req.is_valid(raise_exception=True)
             user = req.save()
 

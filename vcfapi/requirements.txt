@@ -94,3 +94,7 @@ wcwidth==0.2.5
 whitenoise==6.0.0
 vobject
 boto3
+opentelemetry-sdk
+opentelemetry-api
+opentelemetry-instrumentation-django
+uptrace

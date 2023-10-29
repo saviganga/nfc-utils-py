@@ -22,6 +22,7 @@ from django.utils import timezone
 from django_otp.util import random_hex
 
 from userapp import enums as user_enums
+from vcf import models as vcf_models
 
 import uuid
 
@@ -64,6 +65,9 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
         default=False,
         help_text=_("Designates whether the user is a verified user"),
     )
+
+    spotify_auth = models.JSONField(null=True, blank=True)
+    # vcf_info = models.ForeignKey(vcf_models.UserInformation, on_delete=models.SET_NULL, null=True, related_name='uservcf')
 
     is_active = models.BooleanField(
         _("active"),

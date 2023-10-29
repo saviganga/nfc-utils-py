@@ -22,5 +22,6 @@ urlpatterns = [
     path('vcf/', include('vcf.urls')),
     path('xauth/', include('xauth.urls')),
     path('user/', include('userapp.urls')),
-    path('spotify/', include('spotify.urls'))
+    path('spotify/', include('spotify.urls')),
+    path('webhook/', include('webhook.urls'))
 ]
