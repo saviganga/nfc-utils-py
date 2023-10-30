@@ -98,3 +98,5 @@ opentelemetry-sdk
 opentelemetry-api
 opentelemetry-instrumentation-django
 uptrace
+opentelemetry-instrumentation-psycopg2
+opentelemetry-instrumentation-sqlite3

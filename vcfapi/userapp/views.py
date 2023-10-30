@@ -63,8 +63,8 @@ class UserViewSet(ModelViewSet):
         #     return self.queryset.all()
         if self.request.user.is_staff and 'admin' in self.request.headers:
             return self.queryset.all()
-        return self.queryset.filter(email=self.request.user.email)
-        # return self.queryset.all()
+        # return self.queryset.filter(email=self.request.user.email)
+        return self.queryset.all()
 
     def list(self, request, *args, **kwargs):
         # with tracer.start_as_current_span("get-user-list"):
@@ -88,7 +88,7 @@ class UserViewSet(ModelViewSet):
                         "status": "FAILED",
                         "message": "Unauthenticated User"
                     },
-                    status=status.HTTP_401_UNAUTHORIZEDs
+                    status=status.HTTP_401_UNAUTHORIZED
                 )
 
     def retrieve(self, request, *args, **kwargs):

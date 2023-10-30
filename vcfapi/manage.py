@@ -3,6 +3,8 @@
 import os
 import sys
 from opentelemetry.instrumentation.django import DjangoInstrumentor
+from opentelemetry.instrumentation.psycopg2 import Psycopg2Instrumentor
+from opentelemetry.instrumentation.sqlite3 import SQLite3Instrumentor
 import uptrace
 
 
@@ -16,6 +18,7 @@ def main():
     )
     os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'vcfapi.settings')
     DjangoInstrumentor().instrument()
+    SQLite3Instrumentor().instrument()
     try:
         from django.core.management import execute_from_command_line
     except ImportError as exc:
